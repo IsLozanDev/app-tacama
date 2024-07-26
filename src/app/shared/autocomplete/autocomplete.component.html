@@ -1,0 +1,39 @@
+
+<!-- component -->
+<div class="relative">
+  <!-- INPUT -->
+  <div class="relative">
+    <div class="absolute top-0 bottom-0 left-0 flex items-center px-5">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+    </div>
+
+    <!-- (click)="showSearches = false" -->
+    <input type="search"
+      [placeholder]='textPlaceHolder'
+      id="car"
+      #carSearchInput
+      class="pl-16 pr-4 py-4 rounded-md shadow-md bg-white border-0 w-full outline-none" />
+  </div>
+
+  <!-- INPUT -->
+  <ul class="rounded-md shadow-md bg-white absolute left-0 right-0 -bottom-18 mt-3 p-3 z-50"
+  [hidden]="!showSearches">
+    <li class="text-xs uppercase text-gray-400 border-b border-gray border-solid py-2 px-5 mb-2">
+      Lista de elementos encontrados
+    </li>
+    <li *ngFor="let car of searchedCars;" tappable (click)="setCarName(car)"
+      class="grid cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-50">
+      <h3 class="text-gray-900 font-normal text-sm">
+        {{ car.FullName }}
+      </h3>
+    </li>
+    <p class="search" *ngIf="searchedCars && searchedCars.length <= 0 && !isSearching">
+      Elemento no encontrado
+    </p>
+    <p class="search" [hidden]="!isSearching">buscando...</p>
+  </ul>
+</div>

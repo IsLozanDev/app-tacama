@@ -1,0 +1,64 @@
+<section class="container px-4 mx-auto">
+  <div class="bg-white rounded shadow p-10">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div class="flex items-center gap-x-3">
+        <app-title title="Registro de Pedidos." />
+      </div>
+    </div>
+
+      <!-- html buttons tailwind Actions -->
+      <div class="flex justify-end gap-x-3 mt-1">
+        <button type="button"
+        (click)="save()"
+        class="inline-flex items-center py-2.5 px-7 ml-2 text-sm font-medium dark:bg-green-800 text-white">
+          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg>
+          Grabar
+        </button>
+
+        <button type="button" (click)="this.goReturn()"
+          class="inline-flex items-center py-2.5 px-3 ml-2 text-sm font-medium text-white bg-blue-700 border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-back-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 14l-4 -4l4 -4" /><path d="M5 10h11a4 4 0 1 1 0 8h-1" /></svg>
+          Regresar
+        </button>
+
+      </div>
+
+    <!-- Header Order -->
+    <app-add-register #headerComponent (onCustomerSelectEvent)="this.customerSelected=$event" [setMontoHeader] = 'montoHeaderPedido' />
+
+    <!-- Search Article -->
+    <app-search-articulo (onArticleSelectEvent)="setArticleSelected($event)" [infoCustomer]="customerSelected"/>
+
+    <!-- Details Order -->
+    <app-grilla-register [articleSelected]="listArticlesSelected" />
+
+  </div>
+</section>
+
+<!--MODAL: BEGIN-->
+<!-- <app-modal [setDisabled]="true" #modal>
+  <app-modal-matricula (onCloseEvent)="modal.closeModal()" (onSaveEvent)="saveMatricula($event)"
+    [laodData]="matricula" />
+</app-modal> -->
+<!--MODAL: END-->
+
+<!--MODAL: BEGIN Cabecera-->
+<app-dialog
+  #confirm
+  title="Confirmación...!"
+  [menssage]="sendMessage"
+  [type]="type"
+  (onAccept)="confirmacion($event)"
+/>
+
+<!--MODAL: END-->
+
+<!--MODAL: BEGIN-->
+<!-- <app-dialog
+  #confirMatricula
+  title="Confirmación...!"
+  [menssage]="sendMessage"
+  [type]="type"
+  (onAccept)="confirmacionMatricula($event)"
+/> -->
+<!--MODAL: END-->

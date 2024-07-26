@@ -1,0 +1,111 @@
+<!-- <form [formGroup]="this.form" (ngSubmit)="this.save()"> -->
+<form [formGroup]="this.form">
+  <div class="relative w-full">
+    <div class="lg:w-full">
+      <div class="mb-1">
+        <app-autocomplete
+        (setcarNameEvent)="setCarName($event)"
+        (eventGetData)="getClients($event)"
+        [cars]="this.listClients"
+        [textPlaceHolder]="this.textPlaceHolder"
+        ></app-autocomplete>
+      </div>
+
+      <!-- Inofo clientes -->
+      <div class="-mx-3 flex flex-wrap mt-4">
+        <div class="w-full px-3 sm:w-1/2">
+          <div class="mb-1">
+            <label class="mb-3 block text-base font-normal">Direccion
+              <input type="text" placeholder="Direccion" [value]="this.customer?.Direccion"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </label>
+          </div>
+        </div>
+        <div class="w-full px-3 sm:w-1/2">
+          <div class="mb-1">
+            <label class="mb-3 block text-base font-normal">Canal
+              <input type="text" placeholder="Canal" [value]="this.customer?.NombreCanalVenta"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </label>
+          </div>
+        </div>
+        <div class="w-full px-3 sm:w-1/2">
+          <div class="mb-1">
+            <label class="mb-3 block text-base font-normal">Lista de Precio
+              <input type="text" placeholder="Lista Precio" [value]="this.customer?.NombreListaPrecio"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </label>
+          </div>
+        </div>
+        <div class="w-full px-3 sm:w-1/2">
+          <div class="mb-1">
+            <label class="mb-3 block text-base font-normal">Condicion
+              <select
+              formControlName="idCondicion"
+              [value]="AddPedido?.idCondicion"
+              class="w-full border border-gray-300 rounded-md py-1 px-3 focus:outline-none focus:border-blue-700" >
+            @for (item of this.customer?.condiciones; track $index) {
+              <option [value]="item.Id"> {{ item.Descripcion }}</option>
+            }
+            </select>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monto Total -->
+      <div class="-mx-3 flex justify-end flex-wrap text-right mt-4">
+        <div class="w-full px-3 sm:w-1/6">
+          <div class="mb-1">
+            <label class="mb-3 block text-base font-normal">SubTotal
+              <input type="number" readonly [value]="[this.montoHeader?.SubTotal | number: '1.2-2']"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </label>
+          </div>
+        </div>
+        <div class="w-full px-3 sm:w-1/6">
+          <div class="mb-1">
+            <label class="mb-3 block text-base font-normal">Dscto
+              <input type="number" readonly [value]="[this.montoHeader?.Dscto | number: '1.2-2']"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </label>
+          </div>
+        </div>
+        <div class="w-full px-3 sm:w-1/6">
+          <div class="mb-1">
+            <label class="mb-3 block text-base font-normal">Igv
+              <input type="number" readonly [value]="[this.montoHeader?.Igv | number: '1.2-2']"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </label>
+          </div>
+        </div>
+        <div class="w-full px-3 sm:w-1/6">
+          <div class="mb-1">
+            <label class="mb-3 block text-base font-normal">Total
+              <input type="number" readonly [value]="[this.montoHeader?.Total | number: '1.2-2']"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center">
+    <!-- @if (!this.form.invalid) {
+      <button type="submit" [disabled]="this.form.invalid"
+        class="rounded-md bg-cyan-600 px-8 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-1">
+        Grabar
+      </button>
+    }@else {
+      <button type="submit" [disabled]="this.form.invalid"
+        class="rounded-md bg-cyan-300 px-8 py-2.5 text-center text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-1">
+        Grabar
+      </button>
+    }
+    <button type="button"
+      class="rounded-md bg-orange-300 px-7 py-2.5 text-center text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mx-1"
+      (click)="close()">
+      Regresar
+    </button> -->
+  </div>
+</form>

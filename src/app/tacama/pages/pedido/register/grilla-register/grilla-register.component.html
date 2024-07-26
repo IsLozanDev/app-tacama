@@ -1,0 +1,40 @@
+<div class="rounded-lg border border-gray-200 shadow-md m-1">
+
+  <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
+    <thead class="bg-gray-100">
+      <tr>
+        <th scope="col" class="px-6 py-2.5 font-medium text-gray-900">Id</th>
+        <th scope="col" class="px-6 py-2.5 font-medium text-gray-900">Articulo</th>
+        <th scope="col" class="px-6 py-2.5 font-medium text-gray-900">Cantidad</th>
+        <th scope="col" class="px-6 py-2.5 font-medium text-gray-900 text-right">Precio</th>
+        <th scope="col" class="px-6 py-2.5 font-medium text-gray-900 text-right">Importe</th>
+        <th scope="col" class="px-6 py-2.5 font-medium text-gray-900">Accion</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+      @for (item of listArticlesSelected; track $index) {
+        <tr class="hover:bg-gray-50">
+        <td class="px-6 py-3">{{ item.IdArticulo }}</td>
+        <td class="px-6 py-3">{{ item.NomArticulo }}</td>
+        <td class="px-6 py-3">{{item.cantidad}}</td>
+        <td class="px-6 py-3 text-right">{{item.PrecioVenta}}</td>
+        <td class="px-6 py-3 text-right">{{item.importe}}</td>
+        <td class="px-6 py-3">
+          <button >
+            <svg
+            class="h-8 w-8 rounded-full p-1 hover:bg-gray-100 hover:text-blue-600"
+            xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+          </button>
+        </td>
+        </tr>
+      }
+      @empty {
+        <div class="text-sm">
+          <div class="font-medium text-gray-700 px-6 py-3 text-center"> Aun no hay registros.</div>
+        </div>
+
+      }
+    </tbody>
+  </table>
+</div>

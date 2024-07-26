@@ -1,0 +1,33 @@
+<section class="container px-4 mx-auto">
+  <div class="bg-white rounded shadow p-10">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div>
+        <div class="flex items-center gap-x-3">
+          <h2 class="text-lg font-medium">
+            <app-title title="Registro de Pedidos." />
+          </h2>
+        </div>
+      </div>
+    </div>
+
+    <!--FILTER-->
+    <app-filter-pedido (onAddEvent)="openModal(0)" />
+
+
+    <!--GRILLA-->
+    <app-grilla-pedido [setDataList]="pedidos" />
+    <div class="flex items-center justify-between"></div>
+
+  </div>
+</section>
+
+<!--
+      (onEditEvent)="edit($event)"
+  (onDeleteEvent)="delete($event)"
+  [pageSize]="pageSize"
+  [page]="page"
+  [count]="count"
+GRILLA: END-->
+
+<!--GRILLA: BEGIN PAGINATE-->
+<!--GRILLA: END PAGINATE-->

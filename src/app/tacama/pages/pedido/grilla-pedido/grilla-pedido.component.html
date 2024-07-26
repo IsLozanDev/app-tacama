@@ -1,0 +1,100 @@
+<div class="flex flex-col mt-12">
+  <div class="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+      <div class="border border-gray-200 dark:border-gray-700 md:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right">Id</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">Codigo/FH</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">Razon Social</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">Vendedor</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">Canal</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">M.n</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">SubTotal</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">Desctos</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">Igv</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">Total</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">Estado</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">Obs. Stock</th>
+              <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right">Actions</th>
+
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-300 dark:divide-gray-700">
+            @for (item of categorias ; track item.idPedido; let i = $index) {
+            <tr class="hover:bg-gray-100">
+              <td class="px-4 py-1 text-sm font-medium whitespace-nowrap">{{ item.idPedido }}</td>
+              <td class="px-4 py-1 text-sm whitespace-nowrap">
+                {{ item.codPedidoCad }} <br/>
+                 <span class="text-xs">{{ item.Fecha | date : "dd/MM/yyyy"  }}</span>
+              </td>
+              <td class="px-4 py-1 text-sm whitespace-normal">{{ item.desFacturar }}</td>
+              <td class="px-4 py-1 text-sm whitespace-normal">{{ item.Vendedor }}</td>
+              <td class="px-4 py-1 text-sm whitespace-normal">{{ item.nombreCanal }}</td>
+              <td class="px-4 py-1 text-xs whitespace-normal">{{ item.desMoneda }}</td>
+              <td class="px-4 py-1 text-sm whitespace-normal">{{ item.totsubTotal }}</td>
+              <td class="px-4 py-1 text-sm whitespace-normal">{{ item.totDsctos }}</td>
+              <td class="px-4 py-1 text-sm whitespace-normal">{{ item.totIgv }}</td>
+              <td class="px-4 py-1 text-sm whitespace-normal">{{ item.totTotal }}</td>
+              <td class="px-4 py-1 text-sm whitespace-normal">{{ item.desEstado }}</td>
+              <td class="px-4 py-1 text-sm whitespace-normal">{{ item.desindObsStock }}</td>
+              <td class="px-4 py-1 text-sm whitespace-nowrap">
+                <div class="flex justify-center">
+                  <button (click)="edit(item)">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                      width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="h-8 w-8 rounded-full p-1 hover:bg-gray-100 hover:text-blue-600">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                      <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                    </svg>
+                  </button>
+
+                  <button  (click)="delete(item)">
+                    <svg
+                    class="h-8 w-8 rounded-full p-1 hover:bg-gray-100 hover:text-blue-600"
+                    xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                  </button>
+
+                  <div class="inline-block text-left dropdown">
+                    <span class="rounded-md shadow-sm">
+                      <button class="px-1 py-1 text-gray-700 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
+                        type="button" aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117">
+                        <span></span>
+                        <svg
+                        class="h-8 w-8 rounded-full p-1 hover:bg-gray-300 hover:text-blue-700 text-gray-800"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                        </svg>
+                        </button
+                    ></span>
+                    <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
+                      <div
+                      class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
+                      aria-labelledby="headlessui-menu-button-1"
+                      id="headlessui-menu-items-117"
+                      role="menu">
+                        <div class="py-1 ">
+                          <a href="javascript:void(0)" tabindex="0" class="hover:bg-gray-50 text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" >View Pdf</a>
+                          <a href="javascript:void(0)" tabindex="1" class="hover:bg-gray-50 text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" >Send Email</a>
+                          <a href="javascript:void(0)" tabindex="2" class="hover:bg-gray-50 text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" >Aprobaciones</a>
+                          <a href="javascript:void(0)" tabindex="3" class="hover:bg-gray-50 text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" >Dupplicate</a>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
