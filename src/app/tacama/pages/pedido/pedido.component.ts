@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { TitleComponent } from '@shared/title/title.component';
 import { FilterPedidoComponent } from './filter-pedido/filter-pedido.component';
 import { GrillaPedidoComponent } from './grilla-pedido/grilla-pedido.component';
@@ -8,6 +8,10 @@ import { IListPedido } from '@interface/pedido/IListPedido';
 import { IPedidoRequest } from '@interface/pedido/IPedidoRequest';
 import moment from 'moment';
 import { Router } from '@angular/router';
+import { ModalComponent } from '@shared/modal/modal.component';
+import { PedidoPdfComponent } from './pedido-pdf/pedido-pdf.component';
+import { ReporteService } from '@service/reportes.service';
+import { GetPdfDto } from '@interface/report/GetPdfDto';
 
 @Component({
   selector: 'app-pedido',
@@ -17,14 +21,23 @@ import { Router } from '@angular/router';
     TitleComponent,
     FilterPedidoComponent,
     GrillaPedidoComponent,
+    ModalComponent,
+    PedidoPdfComponent,
   ],
   templateUrl: './pedido.component.html',
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class PedidoComponent {
-  pedidos: IListPedido[] = [];
+  @ViewChild('modal') modal!: ModalComponent;
 
-  constructor(private _pedidoService: PedidoService, private router: Router) {
+  pedidos: IListPedido[] = [];
+  base64ReportPedido!: any;
+
+  constructor(
+    private _pedidoService: PedidoService,
+    private router: Router,
+    private _reporteService: ReporteService
+  ) {
     this.getPedidos('');
   }
 
@@ -56,5 +69,36 @@ export default class PedidoComponent {
 
   openModal(id: number) {
     this.router.navigate([`/tacama/pedido/register/0`]);
+  }
+
+  goModalPdf(id: number) {
+
+    this.base64ReportPedido = null;
+    this._reporteService.getListPedidos(id).subscribe((resp: GetPdfDto) => {
+      const basePdf = resp.base64;
+      try {
+        const byteArray = new Uint8Array(
+          atob(basePdf)
+            .split('')
+            .map((char) => char.charCodeAt(0))
+        );
+
+        const file = new Blob([byteArray], { type: 'application/pdf' });
+        const fileURL = window.URL.createObjectURL(file);
+
+        this.base64ReportPedido = byteArray;
+
+        this.modal.openModal();
+
+
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
+
+  closeModal() {
+    this.base64ReportPedido = '';
+    this.modal.closeModal();
   }
 }

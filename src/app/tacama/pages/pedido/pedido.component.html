@@ -14,12 +14,27 @@
     <app-filter-pedido (onAddEvent)="openModal(0)" />
 
 
+    @defer {
+      <app-grilla-pedido [setDataList]="pedidos" (onViewPdfEvent)="goModalPdf($event)" />
+    } @loading (after 100ms; minimum 1s) {
+      <div class="flex justify-center items-center h-64">
+        <div class="loader">Cargando...</div>
+      </div>
+    }
+
     <!--GRILLA-->
-    <app-grilla-pedido [setDataList]="pedidos" />
-    <div class="flex items-center justify-between"></div>
+
+
 
   </div>
 </section>
+
+
+<app-modal [setDisabled]="true" #modal>
+  <app-pedido-pdf (onClosed)="closeModal()" [idPedido]="base64ReportPedido" />
+</app-modal>
+
+<!-- <app-pedido-pdf [idPedido]="base64ReportPedido" /> -->
 
 <!--
       (onEditEvent)="edit($event)"

@@ -1,0 +1,14 @@
+.container-table {
+  position: relative;
+  right: 0;
+  top: 0;
+  width: min(90vw, 48rem);
+  margin-top: 1rem;
+  margin-right: 1.5rem;
+  margin-left: auto;
+  height: 650px;
+  border: none;
+  padding: 20px;
+  background: #fff;
+  margin-top: 20px;
+}

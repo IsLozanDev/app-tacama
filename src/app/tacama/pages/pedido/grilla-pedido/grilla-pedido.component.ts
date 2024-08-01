@@ -7,11 +7,12 @@ import { IListPedido } from '@interface/pedido/IListPedido';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './grilla-pedido.component.html',
-  styleUrls: ['./grilla-pedido.component.css']
+  styleUrls: ['./grilla-pedido.component.css'],
 })
 export class GrillaPedidoComponent {
   @Output() onEditEvent = new EventEmitter<IListPedido>();
   @Output() onDeleteEvent = new EventEmitter<IListPedido>();
+  @Output() onViewPdfEvent = new EventEmitter<number>();
 
   @Input() pageSize: number = 3;
   @Input() page: number = 1;
@@ -29,5 +30,9 @@ export class GrillaPedidoComponent {
 
   delete(row: IListPedido) {
     this.onDeleteEvent.emit(row);
+  }
+
+  sendViewPdf(id: number) {
+    this.onViewPdfEvent.emit(id);
   }
 }

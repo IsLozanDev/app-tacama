@@ -6,10 +6,10 @@ import {
   provideHttpClient,
   withFetch,
   withInterceptors,
-
 } from '@angular/common/http';
 import { InterceptorService } from './lib/auth/interceptor.service';
 import { authGuardGuard } from './lib/guards/auth.guard';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,5 +26,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([InterceptorService])),
     provideHttpClient(withFetch()),
     provideClientHydration(),
+    PdfJsViewerModule,
   ],
 };

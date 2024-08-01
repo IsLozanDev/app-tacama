@@ -14,8 +14,9 @@ import {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './modal.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./modal.component.css'],
 })
+
 export class ModalComponent {
   @ViewChild('dialog') dialog!: ElementRef<HTMLDialogElement>;
 
