@@ -24,13 +24,19 @@
       </div>
 
     <!-- Header Order -->
-    <app-add-register #headerComponent (onCustomerSelectEvent)="this.customerSelected=$event" [setMontoHeader] = 'montoHeaderPedido' />
+    <app-add-register
+      #headerComponent
+      (onCustomerSelectEvent)="this.customerSelected=$event"
+      [setMontoHeader]='montoHeaderPedido'
+      [setCustomerHeader]="customerSelected"
+
+    />
 
     <!-- Search Article -->
     <app-search-articulo (onArticleSelectEvent)="setArticleSelected($event)" [infoCustomer]="customerSelected"/>
 
     <!-- Details Order -->
-    <app-grilla-register [articleSelected]="listArticlesSelected" />
+    <app-grilla-register [articleSelected]="listArticlesSelected" (onDeleteItem)="calculateTotal()" />
 
   </div>
 </section>

@@ -3,12 +3,14 @@
   <div class="relative w-full">
     <div class="lg:w-full">
       <div class="mb-1">
-        <app-autocomplete
-        (setcarNameEvent)="setCarName($event)"
-        (eventGetData)="getClients($event)"
-        [cars]="this.listClients"
-        [textPlaceHolder]="this.textPlaceHolder"
-        ></app-autocomplete>
+        @if (isDisabled) {
+        <input type="text" placeholder="Cliente" [value]="this.customer.NombreCliente" disabled
+          class="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        }
+        @else {
+        <app-autocomplete (setcarNameEvent)="setCarName($event)" (eventGetData)="getClients($event)" [cars]="this.listClients"
+          [textPlaceHolder]="this.textPlaceHolder"></app-autocomplete>
+        }
       </div>
 
       <!-- Inofo clientes -->
@@ -16,7 +18,7 @@
         <div class="w-full px-3 sm:w-1/2">
           <div class="mb-1">
             <label class="mb-3 block text-base font-normal">Direccion
-              <input type="text" placeholder="Direccion" [value]="this.customer?.Direccion"
+              <input type="text" placeholder="Direccion" [value]="this.customer?.Direccion" disabled
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
             </label>
           </div>
@@ -24,7 +26,7 @@
         <div class="w-full px-3 sm:w-1/2">
           <div class="mb-1">
             <label class="mb-3 block text-base font-normal">Canal
-              <input type="text" placeholder="Canal" [value]="this.customer?.NombreCanalVenta"
+              <input type="text" placeholder="Canal" [value]="this.customer?.NombreCanalVenta" disabled
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
             </label>
           </div>
@@ -32,7 +34,7 @@
         <div class="w-full px-3 sm:w-1/2">
           <div class="mb-1">
             <label class="mb-3 block text-base font-normal">Lista de Precio
-              <input type="text" placeholder="Lista Precio" [value]="this.customer?.NombreListaPrecio"
+              <input type="text" placeholder="Lista Precio" [value]="this.customer?.NombreListaPrecio" disabled
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-1 px-3 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
             </label>
           </div>
@@ -42,7 +44,7 @@
             <label class="mb-3 block text-base font-normal">Condicion
               <select
               formControlName="idCondicion"
-              [value]="AddPedido?.idCondicion"
+              [value]="customer?.idCondicion"
               class="w-full border border-gray-300 rounded-md py-1 px-3 focus:outline-none focus:border-blue-700" >
             @for (item of this.customer?.condiciones; track $index) {
               <option [value]="item.Id"> {{ item.Descripcion }}</option>

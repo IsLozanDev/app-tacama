@@ -9,14 +9,13 @@ import { AddRegisterComponent } from './add-register/add-register.component';
 import { GrillaRegisterComponent } from './grilla-register/grilla-register.component';
 import { ModalRegisterComponent } from './modal-register/modal-register.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, fromEvent, switchMap } from 'rxjs';
-import { AutocompleteComponent } from '@shared/autocomplete/autocomplete.component';
 import { SearchArticuloComponent } from './search-articulo/search-articulo.component';
 import { ArticleSearch } from '@interface/article/IArticleSearch';
 import { IMontoHeaderPedido } from '@interface/pedido/IMontoPedido';
 import { ExpPedidoDet, ICmdPedido } from '@interface/pedido/ICmdPedido';
 import { ServiceSession } from '../../../../lib/service/session.service';
 import { PedidoService } from '@service/pedido.service';
+import { GetPedidoDto } from '@interface/pedido/IGetPedidoDto';
 
 @Component({
   selector: 'app-register',
@@ -55,20 +54,58 @@ export default class RegisterComponent {
     private _sessionService: ServiceSession,
     private _pedidoService: PedidoService
   ) {
-    this.idParam = Number(this._route.snapshot.paramMap.get('id'));
+    const idPedido = Number(this._route.snapshot.paramMap.get('id'));
+    if (idPedido > 0) {
+      this.type = 'actualiza';
+
+      this.getPedidoById(idPedido);
+    }
+    this.idParam = idPedido;
+
   }
 
-  showModalAdd() {}
+  getPedidoById(idPedido: number) {
+    this._pedidoService
+      .getPedidoById(idPedido)
+      .subscribe((resp: GetPedidoDto) => {
+        this.customerSelected = { ...resp.clienteHeader, idCondicion: resp.IdCondicion, };
+        resp.ExpPedidoDets.map((x) => {
+
+          this.listArticlesSelected.push({
+            IdArticulo: x.IdArticulo,
+            NomArticulo: x.NomArticulo,
+            PrecioVenta: x.PrecioUnitario,
+            Igv: x.Igv,
+            cantidad: x.Cantidad,
+            importe: x.SubTotal,
+          } as ArticleSearch);
+        });
+
+        this.montoHeaderPedido = {
+          SubTotal: resp.TotsubTotal,
+          Dscto: resp.TotDscto1,
+          Igv: resp.TotIgv,
+          Total: resp.TotTotal,
+          idPedido: resp.IdPedido,
+        };
+      });
+  }
+
+  showModalAdd() { }
 
   setArticleSelected(article: ArticleSearch) {
     this.listArticlesSelected.push(article);
+    this.calculateTotal();
+  }
 
+  public calculateTotal() {
     const headerPedido = this.listArticlesSelected.map((x) => {
       return {
         SubTotal: x.importe,
         Dscto: x.importe !== null ? x.importe * 0.1 : 0,
         Igv: x.Igv,
         Total: x.importe + x.Igv,
+        idPedido: this.idParam,
       } as IMontoHeaderPedido;
     });
 
@@ -78,6 +115,7 @@ export default class RegisterComponent {
         Dscto: acc.Dscto + cur.Dscto,
         Igv: acc.Igv + cur.Igv,
         Total: acc.Total + cur.Total + acc.Igv - (acc.Dscto + cur.Dscto),
+        idPedido: cur.idPedido,
       } as IMontoHeaderPedido;
     });
 
@@ -112,17 +150,14 @@ export default class RegisterComponent {
         //Llamar al servicio para grabar
         this._pedidoService.savePedido(data).subscribe((resp) => {
           this.type = 'grabar';
-          this.sendMessage = 'Pedido grabado con éxito, presione SI para continuar';
+          this.sendMessage =
+            'Pedido grabado con éxito, presione SI para continuar';
           this.confirm.openModal();
         });
       }
     }
   }
-  getCmdPedido(
-    listArticlesSelected: ArticleSearch[],
-    customerSelected: ICustomer,
-    montoHeaderPedido: IMontoHeaderPedido
-  ) {
+  getCmdPedido(listArticlesSelected: ArticleSearch[], customerSelected: ICustomer, montoHeaderPedido: IMontoHeaderPedido) {
     var idItem = 0;
 
     const pedidoDetails = listArticlesSelected.map((x) => {
@@ -234,6 +269,7 @@ export default class RegisterComponent {
       idDireccion: 0,
       ubigeoCot: '150501',
       ExpPedidoDets: pedidoDetails,
+      IdPedido: this.idParam,
     };
 
     return cmdPedido;

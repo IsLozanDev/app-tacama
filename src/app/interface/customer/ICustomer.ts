@@ -7,6 +7,8 @@ export interface ICustomer {
   Direccion: string;
   Ruc: string;
   condiciones: Condicione[];
+  idCondicion: number;
+  NombreCliente: string;
 }
 
 export interface Condicione {

@@ -15,7 +15,7 @@
 
 
     @defer {
-      <app-grilla-pedido [setDataList]="pedidos" (onViewPdfEvent)="goModalPdf($event)" />
+      <app-grilla-pedido [setDataList]="pedidos" (onViewPdfEvent)="goModalPdf($event)" (onEditEvent)="onEditPedido($event)"/>
     } @loading (after 100ms; minimum 1s) {
       <div class="flex justify-center items-center h-64">
         <div class="loader">Cargando...</div>

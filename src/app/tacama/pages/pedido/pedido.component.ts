@@ -72,7 +72,6 @@ export default class PedidoComponent {
   }
 
   goModalPdf(id: number) {
-
     this.base64ReportPedido = null;
     this._reporteService.getListPedidos(id).subscribe((resp: GetPdfDto) => {
       const basePdf = resp.base64;
@@ -83,14 +82,11 @@ export default class PedidoComponent {
             .map((char) => char.charCodeAt(0))
         );
 
-        const file = new Blob([byteArray], { type: 'application/pdf' });
-        const fileURL = window.URL.createObjectURL(file);
-
+        // const file = new Blob([byteArray], { type: 'application/pdf' });
+        // const fileURL = window.URL.createObjectURL(file);
         this.base64ReportPedido = byteArray;
 
         this.modal.openModal();
-
-
       } catch (error) {
         console.log(error);
       }
@@ -100,5 +96,9 @@ export default class PedidoComponent {
   closeModal() {
     this.base64ReportPedido = '';
     this.modal.closeModal();
+  }
+
+  onEditPedido(id: number) {
+    this.router.navigate([`/tacama/pedido/register/${id}`]);
   }
 }

@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { IListPedido } from '@interface/pedido/IListPedido';
 import { IPedidoRequest } from '@interface/pedido/IPedidoRequest';
 import { ICmdPedido } from '@interface/pedido/ICmdPedido';
+import { GetPedidoDto } from '@interface/pedido/IGetPedidoDto';
 
 @Injectable({ providedIn: 'root' })
 export class PedidoService {
@@ -24,4 +25,9 @@ export class PedidoService {
   savePedido(data: ICmdPedido) {
     return this.http.post(`${this.url}Pedido/SavePedido`, data);
   }
+
+  getPedidoById(id: number) {
+    return this.http.get<GetPedidoDto>(`${this.url}pedido/${id}`);
+  }
+
 }

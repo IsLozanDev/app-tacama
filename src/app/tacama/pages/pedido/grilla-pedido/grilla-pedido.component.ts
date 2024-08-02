@@ -10,7 +10,7 @@ import { IListPedido } from '@interface/pedido/IListPedido';
   styleUrls: ['./grilla-pedido.component.css'],
 })
 export class GrillaPedidoComponent {
-  @Output() onEditEvent = new EventEmitter<IListPedido>();
+  @Output() onEditEvent = new EventEmitter<number>();
   @Output() onDeleteEvent = new EventEmitter<IListPedido>();
   @Output() onViewPdfEvent = new EventEmitter<number>();
 
@@ -24,8 +24,8 @@ export class GrillaPedidoComponent {
     this.categorias = value;
   }
 
-  edit(row: IListPedido) {
-    this.onEditEvent.emit(row);
+  edit(id: number) {
+    this.onEditEvent.emit(id);
   }
 
   delete(row: IListPedido) {

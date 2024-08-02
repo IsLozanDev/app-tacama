@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ClienteService } from './../../../../../service/cliente.service';
 import { Component, EventEmitter, Input, input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ICustomer } from '@interface/customer/ICustomer';
 import { ICmdPedido } from '@interface/pedido/ICmdPedido';
 import { IMontoHeaderPedido } from '@interface/pedido/IMontoPedido';
@@ -11,28 +16,34 @@ import { AutocompleteComponent } from '@shared/autocomplete/autocomplete.compone
 @Component({
   selector: 'app-add-register',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, AutocompleteComponent, CommonModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    AutocompleteComponent,
+    CommonModule,
+  ],
   templateUrl: './add-register.component.html',
   styles: ``,
 })
-
 export class AddRegisterComponent {
   public form!: FormGroup;
-
   car!: ISearch;
   listClients: ISearch[] = [];
   textPlaceHolder = 'Ingrese texto para buscar clientes...';
   customer!: ICustomer;
 
-  AddPedido!: ICmdPedido;
   montoHeader!: IMontoHeaderPedido | null;
 
-  constructor(private fb: FormBuilder,private _clienteService: ClienteService) {
+  isDisabled = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private _clienteService: ClienteService
+  ) {
     this.form = this.fb.group({
       idCondicion: [0],
     });
   }
-
 
   @Output() onSaveEvent = new EventEmitter<any>();
   @Output() onCloseEvent = new EventEmitter<boolean>();
@@ -40,13 +51,21 @@ export class AddRegisterComponent {
 
   @Input() set setMontoHeader(value: IMontoHeaderPedido) {
     if (value) {
-      this.montoHeader = value;
-    }else{
-      this.montoHeader = { SubTotal: 0, Dscto: 0, Igv: 0, Total: 0 };
+      this.montoHeader = { ...value };
+    } else {
+      this.montoHeader = { SubTotal: 0, Dscto: 0, Igv: 0, Total: 0 , idPedido: 0};
     }
+    this.isDisabled = this.montoHeader.idPedido > 0;
   }
 
+  @Input() set setCustomerHeader(value: ICustomer) {
 
+    if (value && value.IdListaPrecio > 0) {
+      console.log(value);
+      this.customer = { ...value };
+      this.form.patchValue({ idCondicion: value.idCondicion });
+    }
+  }
 
   save(): void {
     this.onSaveEvent.emit({ state: true, ...this.form.value });
@@ -63,8 +82,6 @@ export class AddRegisterComponent {
       this.customer = resp;
       this.onCustomerSelectEvent.emit(this.customer);
     });
-
-
   }
 
   getClients($event: { filter: string }) {

@@ -1,4 +1,5 @@
 export interface ICmdPedido {
+  IdPedido:                 number;
   NroRucCliente:            string;
   idLocal:                  number;
   codPedido:                number;
