@@ -10,6 +10,8 @@ import { IListPedido } from '@interface/pedido/IListPedido';
   styleUrls: ['./grilla-pedido.component.css'],
 })
 export class GrillaPedidoComponent {
+  classHeader: string = 'px-4 py-3 text-sm font-semibold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-750';
+
   @Output() onEditEvent = new EventEmitter<number>();
   @Output() onDeleteEvent = new EventEmitter<IListPedido>();
   @Output() onViewPdfEvent = new EventEmitter<number>();
@@ -34,5 +36,8 @@ export class GrillaPedidoComponent {
 
   sendViewPdf(id: number) {
     this.onViewPdfEvent.emit(id);
+  }
+  toggleDropdown($event: MouseEvent) {
+    document.getElementById('dropdownMenu')?.classList.remove('hidden');
   }
 }

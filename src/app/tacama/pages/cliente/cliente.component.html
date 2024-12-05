@@ -1,23 +1,20 @@
-<section class="container px-4 mx-auto">
-  <div class="bg-white rounded shadow p-10">
-    <div class="sm:flex sm:items-center sm:justify-between">
-      <div>
-        <div class="flex items-center gap-x-3">
-          <h2 class="text-lg font-medium">
-            <app-title title="Registro de Clientes." />
-          </h2>
-        </div>
-        <!-- <p class="mt-1 text-sm">Lista de Estudiantes...</p> -->
-      </div>
+<div class="flex-none w-full max-w-full px-3">
+  <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded bg-clip-border">
+    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+      <app-title title="Registro de Clientes." />
     </div>
+    <!-- <p class="mt-1 text-sm">Lista de Estudiantes...</p> -->
 
-    <!--FILTER: BEGIN-->
-    <app-filter-cliente />
-    <!--FILTER: END-->
+    <div class="flex-auto px-2 pt-2 pb-1">
+      <!--FILTER: BEGIN-->
+      <app-filter-cliente />
+      <!--FILTER: END-->
+
+    </div>
 
     <!--GRILLA: BEGIN PAGINATE-->
     <div class="flex items-center justify-between"></div>
 
     <!--GRILLA: END PAGINATE-->
   </div>
-</section>
+</div>

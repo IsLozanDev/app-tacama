@@ -16,6 +16,7 @@ import { ExpPedidoDet, ICmdPedido } from '@interface/pedido/ICmdPedido';
 import { ServiceSession } from '../../../../lib/service/session.service';
 import { PedidoService } from '@service/pedido.service';
 import { GetPedidoDto } from '@interface/pedido/IGetPedidoDto';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -61,16 +62,17 @@ export default class RegisterComponent {
       this.getPedidoById(idPedido);
     }
     this.idParam = idPedido;
-
   }
 
   getPedidoById(idPedido: number) {
     this._pedidoService
       .getPedidoById(idPedido)
       .subscribe((resp: GetPedidoDto) => {
-        this.customerSelected = { ...resp.clienteHeader, idCondicion: resp.IdCondicion, };
+        this.customerSelected = {
+          ...resp.clienteHeader,
+          idCondicion: resp.IdCondicion,
+        };
         resp.ExpPedidoDets.map((x) => {
-
           this.listArticlesSelected.push({
             IdArticulo: x.IdArticulo,
             NomArticulo: x.NomArticulo,
@@ -91,7 +93,7 @@ export default class RegisterComponent {
       });
   }
 
-  showModalAdd() { }
+  showModalAdd() {}
 
   setArticleSelected(article: ArticleSearch) {
     this.listArticlesSelected.push(article);
@@ -127,8 +129,47 @@ export default class RegisterComponent {
   }
 
   save() {
-    this.sendMessage = '¿Desea grabar el pedido?';
-    this.confirm.openModal();
+    Swal.fire({
+      text: 'Desea grabar los cambios?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Grabar',
+      customClass: {
+        popup: 'bg-white shadow-lg rounded-lg p-4',
+        confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded',
+        cancelButton: 'bg-red-500 text-white px-4 py-2 rounded',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          title: `<div class="text-xl font-semibold">Pedido grabado con éxito <br> presione SI para continuar</div>`,
+          customClass: {
+            popup: 'bg-white shadow-lg rounded-lg p-4',
+            confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded',
+          },
+        });
+      }
+    });
+
+    // Swal.fire({
+    //   title: "Do you want to save the changes?",
+    //   showDenyButton: true,
+    //   showCancelButton: true,
+    //   confirmButtonText: "Save",
+    //   denyButtonText: `Don't save`
+    // }).then((result) => {
+    //   /* Read more about isConfirmed, isDenied below */
+    //   if (result.isConfirmed) {
+    //     Swal.fire("Saved!", "", "success");
+    //   } else if (result.isDenied) {
+    //     Swal.fire("Changes are not saved", "", "info");
+    //   }
+    // });
+
+    // this.sendMessage = '¿Desea grabar el pedido?';
+    // this.confirm.openModal();
   }
 
   confirmacion(rest: any) {
@@ -157,7 +198,11 @@ export default class RegisterComponent {
       }
     }
   }
-  getCmdPedido(listArticlesSelected: ArticleSearch[], customerSelected: ICustomer, montoHeaderPedido: IMontoHeaderPedido) {
+  getCmdPedido(
+    listArticlesSelected: ArticleSearch[],
+    customerSelected: ICustomer,
+    montoHeaderPedido: IMontoHeaderPedido
+  ) {
     var idItem = 0;
 
     const pedidoDetails = listArticlesSelected.map((x) => {

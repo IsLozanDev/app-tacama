@@ -21,7 +21,11 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
               {
                 "glob": "**/*",
                 "input": "node_modules/ng2-pdfjs-viewer/pdfjs",
@@ -34,9 +38,12 @@
               }
             ],
             "styles": [
+              "src/assets/css/argon-dashboard-tailwind.css",
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/assets/js/argon-dashboard-tailwind.js"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
